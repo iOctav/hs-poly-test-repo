@@ -24,6 +24,14 @@ unit_myMap = do
 prop_myMap :: String -> [String] -> Bool
 prop_myMap suffix lst = myMap (++suffix) lst == map (++suffix) lst
 
+unit_myConcatMap = do
+    assertEqual ""  [1,2,3,2,3,4,3,4,5] (myConcatMap (\x -> [x, x+1, x+2]) [1, 2, 3])
+    assertEqual "" [1,2,3] (myConcatMap (\x -> [x]) [1, 2, 3])
+    assertEqual "" [1,3,5,7,9] (myConcatMap (\x -> [1,x..10]) [3])
+
+prop_myConcatMap :: String -> [String] -> Bool
+prop_myConcatMap suffix lst = myConcatMap (++suffix) lst == concatMap (++suffix) lst
+
 unit_myReverse = do
     assertEqual "" empty (myReverse empty)
     assertEqual "" [1] (myReverse [1])
@@ -41,6 +49,8 @@ unit_myConcat = do
 
 prop_myConcat :: [[Int]] -> Bool
 prop_myConcat lst = myConcat lst == concat lst
+
+-- Add tests for myConcatMap
 
 unit_myFilter = do
     myFilter (`elem` "123456789") "" @?= ""
