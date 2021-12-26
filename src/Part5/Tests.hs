@@ -50,8 +50,6 @@ unit_myConcat = do
 prop_myConcat :: [[Int]] -> Bool
 prop_myConcat lst = myConcat lst == concat lst
 
--- Add tests for myConcatMap
-
 unit_myFilter = do
     myFilter (`elem` "123456789") "" @?= ""
     myFilter (`elem` "123456789") "a1v234asas5" @?= "12345"
