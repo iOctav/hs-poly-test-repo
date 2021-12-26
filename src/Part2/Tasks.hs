@@ -21,7 +21,7 @@ data Term = IntConstant { intValue :: Int }          -- числовая кон�
 -- Заменить переменную `varName` на `replacement`
 -- во всём выражении `expression`
 replaceVar :: String -> Term -> Term -> Term
-replaceVar = notImplementedYet
+replaceVar varName replacement expression = notImplementedYet
 
 -- Посчитать значение выражения `Term`
 -- если оно состоит только из констант
