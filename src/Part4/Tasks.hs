@@ -26,11 +26,11 @@ listToRlist lst =
 instance Show a => Show (ReverseList a) where
     show REmpty = "[]"
     show lst = let
-      helper REmpty = "" 
+      helper REmpty = ""
       helper (REmpty :< lst) = show lst
       helper (hd :< lst) = helper hd ++ "," ++ show lst
-      in 
-      "[" ++ helper lst ++ "]" 
+      in
+      "[" ++ helper lst ++ "]"
     showsPrec = notImplementedYet
 instance Eq a => Eq (ReverseList a) where
     (==) REmpty REmpty = True
@@ -42,8 +42,7 @@ instance Semigroup (ReverseList a) where
     (<>) REmpty REmpty = REmpty
     (<>) REmpty rl = rl
     (<>) rl REmpty = rl
-    (<>) lRL (rHead :< rLast) = helper ((<>) lRL rHead) rLast
-      where helper rl eRL = (rl :< eRL)
+    (<>) lRL (rHead :< rLast) = (:<) ((<>) lRL rHead) rLast
 instance Monoid (ReverseList a) where
     mempty = REmpty
 instance Functor ReverseList where
@@ -51,6 +50,10 @@ instance Functor ReverseList where
     fmap f (rHead :< rLast) = (fmap f rHead) :< f rLast
 instance Applicative ReverseList where
     pure a = REmpty :< a
-    (<*>) = notImplementedYet
+    (<*>) REmpty _ = REmpty
+    (<*>) _ REmpty = REmpty
+    (<*>) (fs :< f) xLst = (<*>) fs xLst <> fmap f xLst
 instance Monad ReverseList where
-    (>>=) = notImplementedYet
+    return = pure
+    (>>=) REmpty _ = REmpty
+    (>>=) (xs :< x) f =  (>>=) xs f <> f x
